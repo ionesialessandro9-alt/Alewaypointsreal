@@ -2,10 +2,10 @@
 name: Build ALEX Waypoints 3.0
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -19,26 +19,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Java 21
+      - name: Setup Java 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
 
-      - name: Gradle
+      - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.14'
 
-      - name: Build Minecraft mod
-        working-directory: ALEX_Waypoints_3_0_READY/fabric-mod
+      - name: Build Minecraft Mod
+        working-directory: ALEX_Waypoints_3_0_READY_Dawn_1.21.8/fabric-mod
         run: gradle build --no-daemon
 
-      - name: Upload mod
+      - name: Upload Fabric Mod
         uses: actions/upload-artifact@v4
         with:
           name: ALEX-Waypoints-Fabric-Mod
-          path: ALEX_Waypoints_3_0_READY/fabric-mod/build/libs/*.jar
+          path: ALEX_Waypoints_3_0_READY_Dawn_1.21.8/fabric-mod/build/libs/*.jar
           if-no-files-found: error
 
   build-desktop:
@@ -49,25 +49,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Python 3.11
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        working-directory: ALEX_Waypoints_3_0_READY/overlay
+      - name: Install Dependencies
+        working-directory: ALEX_Waypoints_3_0_READY_Dawn_1.21.8/overlay
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Create Windows executable
-        working-directory: ALEX_Waypoints_3_0_READY/overlay
+      - name: Create Windows EXE
+        working-directory: ALEX_Waypoints_3_0_READY_Dawn_1.21.8/overlay
         run: pyinstaller --noconfirm --clean --onefile --windowed --name ALEX-Waypoints alex_overlay.py
 
-      - name: Upload Windows program
+      - name: Upload Desktop EXE
         uses: actions/upload-artifact@v4
         with:
           name: ALEX-Waypoints-Desktop
-          path: ALEX_Waypoints_3_0_READY/overlay/dist/ALEX-Waypoints.exe
+          path: ALEX_Waypoints_3_0_READY_Dawn_1.21.8/overlay/dist/ALEX-Waypoints.exe
           if-no-files-found: error
