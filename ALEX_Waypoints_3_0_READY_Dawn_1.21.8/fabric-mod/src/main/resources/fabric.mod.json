@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "alex_waypoints",
+  "version": "${version}",
+  "name": "ALEX Waypoints",
+  "description": "Waypoint file bridge for the ALEX Waypoints desktop companion.",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "it.alex.waypoints.AlexWaypointsClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.8",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
